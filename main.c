@@ -243,44 +243,16 @@ int main() {
                 // printf("\n%.3f\n", win_chanse(1));
 
                 datagame.user_chanse = flop_comb(flop);
-                //                if (datagame.user_chanse < 0) {
-                //                    if (user_hand.first >= user_hand.second) {
-                //                        datagame.user_chanse = (user_hand.first % 13) / 118 * 100;
-                //                    }
-                //                    else if (user_hand.first < user_hand.second) {
-                //                        datagame.user_chanse = (user_hand.second % 13) / 118 * 100;
-                //                    }
-                //                }
                 flop[0] = table.first_flop;
                 flop[1] = table.second_flop;
                 flop[2] = table.third_flop;
                 flop[3] = bot_hand.first;
                 flop[4] = bot_hand.second;
-
-
                 datagame.bot_chanse = flop_comb(flop);
-                //                if (datagame.bot_chanse < 0) {
-                //                    if (bot_hand.first >= bot_hand.second) {
-                //                        datagame.bot_chanse = (bot_hand.first % 13) / 118 * 100;
-                //                    }
-                //                    else if (bot_hand.first < bot_hand.second) {
-                //                        datagame.bot_chanse = (bot_hand.second % 13) / 118 * 100;
-                //                    }
-                //                }
-                //printf("bot comb flop\n");
-                //print_hand(bot_hand);
-                //print_table(3, table);
-
                 datagame = blind(datagame);
                 datagame.win_chanse = win_chanse(1);
                 datagame = action(datagame);
-                //                system("pause");
-                //                //ClearScreen();
-                //                system("cls");
                 if (datagame.restart == 1) continue;
-
-                //printf("user - %.3f\nbot - %.3f\n\n", datagame.user_chanse, datagame.bot_chanse);
-                // printf("\nwin percent = %.3f\n", win_chanse(1));
                 //раунд тёрн
                 int turn[6];
                 table.turn = generation();
@@ -296,20 +268,6 @@ int main() {
                 turn[4] = user_hand.first;
                 turn[5] = user_hand.second;
                 datagame.user_chanse = turn_comb(turn);
-                //                if (datagame.user_chanse < 0) {
-                //                    if (user_hand.first >= user_hand.second) {
-                //                        datagame.user_chanse = (user_hand.first % 13) / 118 * 100;
-                //                    }
-                //                    else if (user_hand.first < user_hand.second) {
-                //                        datagame.user_chanse = (user_hand.second % 13) / 118 * 100;
-                //                    }
-                //                }
-                //printf("bot comb turn\n");
-                //print_hand(bot_hand);
-                //print_table(4, table);
-                // printf("\n%.3f\n", win_chanse(2));
-
-
                 turn[0] = table.first_flop;
                 turn[1] = table.second_flop;
                 turn[2] = table.third_flop;
@@ -318,28 +276,11 @@ int main() {
                 turn[5] = bot_hand.second;
 
                 datagame.bot_chanse = turn_comb(turn);
-                //                if (datagame.bot_chanse < 0) {
-                //                    if (bot_hand.first >= bot_hand.second) {
-                //                        datagame.bot_chanse = (bot_hand.first % 13) / 118 * 100;
-                //                    }
-                //                    else if (bot_hand.first < bot_hand.second) {
-                //                        datagame.bot_chanse = (bot_hand.second % 13) / 118 * 100;
-                //                    }
-                //                }
-
                 datagame.win_chanse = win_chanse(2);
                 datagame = action(datagame);
-                //                system("pause");
-                //                //ClearScreen();
-                //                system("cls");
                 if (datagame.restart == 1) continue;
-
-                //printf("user - %.3f\nbot - %.3f\n\n", datagame.user_chanse, datagame.bot_chanse);
-                //  printf("\nwin percent = %.3f\n", win_chanse(2));
-                //раунд ривер
                 table.river = generation();
                 int river[7];
-                //printf("gamer comb turn\n");
                 printf("Your hand:\n");
                 print_hand(user_hand);
                 printf("Talbe:\n");
@@ -352,18 +293,6 @@ int main() {
                 river[5] = user_hand.first;
                 river[6] = user_hand.second;
                 datagame.user_chanse = river_comb(river);
-                //                if (datagame.user_chanse < 0) {
-                //                    if (user_hand.first >= user_hand.second) {
-                //                        datagame.user_chanse = (user_hand.first % 13) / 118 * 100;
-                //                    }
-                //                    else if (user_hand.first < user_hand.second) {
-                //                        datagame.user_chanse = (user_hand.second % 13) / 118 * 100;
-                //                    }
-                //                }
-                //printf("bot comb river\n");
-                //print_hand(bot_hand);
-                //print_table(5, table);
-                // printf("\n%.3f\n", win_chanse(3));
 
 
                 river[0] = table.first_flop;
@@ -375,23 +304,9 @@ int main() {
                 river[6] = bot_hand.second;
 
                 datagame.bot_chanse = river_comb(river);
-                //                if (datagame.bot_chanse < 0) {
-                //                    if (bot_hand.first >= bot_hand.second) {
-                //                        datagame.bot_chanse = (bot_hand.first % 13) / 118 * 100;
-                //                    }
-                //                    else if (bot_hand.first < bot_hand.second) {
-                //                        datagame.bot_chanse = (bot_hand.second % 13) / 118 * 100;
-                //                    }
-                //                }
                 datagame.win_chanse = win_chanse(3);
                 datagame = action(datagame);
-                //                system("pause");
-                //                //ClearScreen();
-                //                system("cls");
                 if (datagame.restart == 1) continue;
-
-                //printf("user - %.3f\nbot - %.3f\n\n", datagame.user_chanse, datagame.bot_chanse);
-                //  printf("\nwin percent = %.3f\n", win_chanse(3));
                 if (datagame.user_chanse > datagame.bot_chanse) {
                     printf("Bot hand:\n");
                     print_hand(bot_hand);
@@ -400,9 +315,6 @@ int main() {
                     printf("Table:\n");
                     print_table(5, table);
                     printf("You win\n");
-                    //                    system("pause");
-                    //                    //ClearScreen();
-                    //                    system("cls");
                     datagame.your_balance += datagame.bank;
                     datagame.bank = 0;
                     datagame.bot_bet = 0;
@@ -416,9 +328,6 @@ int main() {
                     printf("Table:\n");
                     print_table(5, table);
                     printf("Bot win\n");
-                    //                    system("pause");
-                    //                    //ClearScreen();
-                    //                    system("cls");
                     datagame.bot_balance += datagame.bank;
                     datagame.bank = 0;
                     datagame.bot_bet = 0;
@@ -432,9 +341,6 @@ int main() {
                     printf("Table:\n");
                     print_table(5, table);
                     printf("DRAW\n");
-                    //                    system("pause");
-                    //                    //ClearScreen();
-                    //                    system("cls");
                     datagame.your_balance += datagame.bank / 2;
                     datagame.bot_balance += datagame.bank / 2;
                     datagame.bank = 0;
@@ -442,13 +348,6 @@ int main() {
                     datagame.your_bet = 0;
                 }
             }
-
-
-
-            //if (datagame.bot_balance != 0 && datagame.your_balance != 0) goto checkpoint;
-
-
-
             if (datagame.bot_balance == 0) printf("You win\n");
             if (datagame.your_balance == 0) printf("Bot win\n");
             break;
@@ -1451,28 +1350,62 @@ Datagame bot_fold(Datagame datagame) {
 
 Datagame bot_call(Datagame datagame) {
     printf("\n!!!Bot call!!!\n");
-    datagame.bank += datagame.your_bet - datagame.bot_bet;
-    datagame.bot_balance -= datagame.your_bet - datagame.bot_bet;
-    datagame.bot_bet += datagame.your_bet - datagame.bot_bet;
 
-    printinfo(datagame);
+    /* datagame.bank += datagame.your_bet - datagame.bot_bet;
+     datagame.bot_balance -= datagame.your_bet - datagame.bot_bet;
+     datagame.bot_bet += datagame.your_bet - datagame.bot_bet;
+
+     printinfo(datagame);
+     datagame.restart = 0;
+     return datagame;*/
+
+    if ((datagame.your_bet - datagame.bot_bet) <= datagame.bot_balance) {
+        datagame.bot_balance -= (datagame.your_bet - datagame.bot_bet);
+        datagame.bank += (datagame.your_bet - datagame.bot_bet);
+        datagame.bot_bet += (datagame.your_bet - datagame.bot_bet);
+        printinfo(datagame);
+
+    }
+    else {
+        datagame.your_balance += (datagame.your_bet - datagame.bot_bet);
+        datagame.bank -= (datagame.your_bet - datagame.bot_bet);
+
+        datagame.your_bet = datagame.bot_bet;
+        datagame.your_bet += datagame.bot_balance;
+        datagame.your_balance -= datagame.bot_balance;
+        datagame.bot_bet += datagame.bot_balance;
+        datagame.bank += 2 * datagame.bot_balance;
+        datagame.bot_balance = 0;
+        printinfo(datagame);
+
+    }
     datagame.restart = 0;
     return datagame;
+
+
+
 }
 
 Datagame bot_raise(Datagame datagame) {
     printf("\n!!!Bot raise!!!\n");
+
     int bet;
     bet = datagame.win_chanse * datagame.bank;
-
-    if (datagame.your_balance == 0)  datagame.bot_bet += datagame.your_bet - datagame.bot_bet;
+    int raznica = datagame.your_bet - datagame.bot_bet;
+    if (datagame.your_balance == 0)  bet = raznica;
     else {
-        while (bet < datagame.your_bet - datagame.bot_bet) bet += datagame.win_chanse * datagame.bank;
-        if (bet > fmin(datagame.bot_balance, datagame.your_balance)) bet = fmin(datagame.bot_balance, datagame.your_balance);
+        while (bet < raznica) bet += datagame.win_chanse * datagame.bank;
+        if (bet > datagame.bot_balance) bet = datagame.bot_balance;
     }
+
     datagame.bank += bet;
     datagame.bot_bet += bet;
     datagame.bot_balance -= bet;
+
+    if (datagame.bot_bet < datagame.your_bet) {
+        datagame.bank -= datagame.your_bet - datagame.bot_bet;
+        datagame.your_bet = datagame.bot_bet;
+    }
     //printinfo(datagame);
     datagame = action(datagame);
     return datagame;
@@ -1486,18 +1419,61 @@ Datagame bot_all_in(Datagame datagame) {
     //printinfo(datagame);
     datagame = action(datagame);
     return datagame;
+
+    if (datagame.bot_balance > datagame.your_balance + datagame.your_bet - datagame.bot_bet) { //???баланс игрока больше баланса бота учитывая их ставки
+        datagame.bot_bet += datagame.your_balance + datagame.your_bet - datagame.bot_bet;
+        datagame.bank += datagame.your_balance + datagame.your_bet - datagame.bot_bet;
+        datagame.bot_balance -= datagame.your_balance + datagame.your_bet - datagame.bot_bet;
+        printinfo(datagame);
+
+        datagame = action(datagame);
+    }
+    else {
+        datagame.bot_bet += datagame.bot_balance;
+        datagame.bank += datagame.bot_balance;
+        datagame.bot_balance = 0;
+        printinfo(datagame);
+
+        datagame = action(datagame);
+    }
+    return datagame;
+
+
 }
 
 Datagame bot_bet(Datagame datagame) {
     printf("\n!!!Bot bet!!!\n");
-    //srand(time(NULL));
-    int bet = rand() % 101 + 100;
-    if (bet > datagame.bot_balance) bet = datagame.bot_balance;
+    ////srand(time(NULL));
+    //int bet = rand() % 101 + 100;
+    //if (bet > datagame.bot_balance) bet = datagame.bot_balance;
+
+    //datagame.bank += bet;
+    //datagame.bot_bet += bet;
+    //datagame.bot_balance -= bet;
+    ////printinfo(datagame);
+    //datagame = action(datagame);
+    //return datagame;
+
+    int bet;
+    bet = datagame.win_chanse * datagame.bank;
+    int raznica = datagame.your_bet - datagame.bot_bet;
+    if (datagame.your_balance == 0)  bet = raznica;
+    else {
+        while (bet < raznica) bet += datagame.win_chanse * datagame.bank;
+        if (bet > datagame.bot_balance) bet = datagame.bot_balance;
+    }
+
+
+    if (datagame.bot_bet < datagame.your_bet) {
+        datagame.bank -= datagame.your_bet - datagame.bot_bet;
+        datagame.your_bet = datagame.bot_bet;
+    }
 
     datagame.bank += bet;
     datagame.bot_bet += bet;
     datagame.bot_balance -= bet;
-    //printinfo(datagame);
+    printinfo(datagame);
+
     datagame = action(datagame);
     return datagame;
 }
@@ -1558,7 +1534,14 @@ Datagame call(Datagame datagame) {
 
     }
     else {
-        datagame.bank += datagame.your_balance;
+        datagame.bot_balance += datagame.bot_bet - datagame.your_bet;
+        datagame.bank -= datagame.bot_bet - datagame.your_bet;
+
+        datagame.bot_bet = datagame.your_bet;
+        datagame.bot_bet += datagame.your_balance;
+        datagame.bot_balance -= datagame.your_balance;
+        datagame.your_bet += datagame.your_balance;
+        datagame.bank += 2 * datagame.your_balance;
         datagame.your_balance = 0;
         printinfo(datagame);
 
@@ -1576,10 +1559,12 @@ Datagame raise(Datagame datagame) {
 };
 
 Datagame all_in(Datagame datagame) {
-    if (datagame.your_balance > datagame.bot_balance + datagame.bot_bet - datagame.your_bet) {
-        datagame.your_bet += datagame.bot_balance + datagame.bot_bet - datagame.your_bet;
+    int raznica = datagame.your_bet;
+    if (datagame.your_balance > datagame.bot_balance + datagame.bot_bet - datagame.your_bet) { //баланс игрока больше баланса бота учитывая их ставки
         datagame.bank += datagame.bot_balance + datagame.bot_bet - datagame.your_bet;
-        datagame.your_balance -= datagame.bot_balance + datagame.bot_bet - datagame.your_bet;
+        datagame.your_bet += datagame.bot_balance + datagame.bot_bet - datagame.your_bet;
+
+        datagame.your_balance -= datagame.bot_balance + datagame.bot_bet - raznica;
         printinfo(datagame);
 
         datagame = action_bot(datagame);
@@ -1682,6 +1667,7 @@ Datagame action(Datagame datagame) {
 
         }
     }
+    else  printinfo(datagame);
     return datagame;
 };//действие
 
