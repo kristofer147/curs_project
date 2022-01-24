@@ -6,6 +6,7 @@
 #include <malloc.h>
 #include <math.h>
 #include <windows.h>
+#include <intrin.h>
 //1) генерация карт (свои, чужие, общие)(проверить чтобы карты выпадали единожды, использовать свитч кейс)(структура: масть + достоинство "heart, diamond, club, spare")
 //
 //2)вывод их на экран (ascii art)
@@ -156,15 +157,12 @@ Datagame bot_fold(Datagame datagame);
 Datagame bot_call(Datagame datagame);
 Datagame bot_raise(Datagame datagame);
 Datagame bot_all_in(Datagame datagame);
-Datagame bot_bet(Datagame datagame);
 Datagame bot_check(Datagame datagame);
 
 float win_chanse_bot(int round);
-float win_chanse_bot1(int round);
 
 void blind_bots();
 void bot_vs_bot();
-
 
 int main() {
     srand(time(NULL));
@@ -1086,6 +1084,7 @@ int combination_power(int* dignity, int* suit, int size) {
     }
     return high_card(dignity);
 }
+
 float win_chanse(int round) {
     hand test_hand;
     tb test_table;
@@ -1102,20 +1101,23 @@ float win_chanse(int round) {
 
 
     if (round == 1) {
+        user_chanse[0] = table.first_flop;
+        user_chanse[1] = table.second_flop;
+        user_chanse[2] = table.third_flop;
+
+        bot_chanse[0] = table.first_flop;
+        bot_chanse[1] = table.second_flop;
+        bot_chanse[2] = table.third_flop;
+        bot_chanse[3] = bot_hand.first;
+        bot_chanse[4] = bot_hand.second;
+
         for (int i = 0; i < 10000; ++i) {
-            user_chanse[0] = table.first_flop;
-            user_chanse[1] = table.second_flop;
-            user_chanse[2] = table.third_flop;
+
             user_chanse[3] = generation();
             user_chanse[4] = generation();
             user_chanse[5] = generation();
             user_chanse[6] = generation();
 
-            bot_chanse[0] = table.first_flop;
-            bot_chanse[1] = table.second_flop;
-            bot_chanse[2] = table.third_flop;
-            bot_chanse[3] = bot_hand.first;
-            bot_chanse[4] = bot_hand.second;
             bot_chanse[5] = user_chanse[3];
             bot_chanse[6] = user_chanse[4];
 
@@ -1133,7 +1135,7 @@ float win_chanse(int round) {
             //            print_table(5,test_table);
             //printf("bot - %.3f \n user - %.3f\n", river_comb(bot_chanse),river_comb(user_chanse));
             if (river_comb(bot_chanse) > river_comb(user_chanse)) {
-                chanse += 1;
+                chanse ++;
             }
             for (int j = 0; j < 53; ++j) {
                 usage[j] = copy_usage[j];
@@ -1142,21 +1144,24 @@ float win_chanse(int round) {
         return chanse / 10000;
     }
     else if (round == 2) {
+        user_chanse[0] = table.first_flop;
+        user_chanse[1] = table.second_flop;
+        user_chanse[2] = table.third_flop;
+        user_chanse[3] = table.turn;
+
+        bot_chanse[0] = table.first_flop;
+        bot_chanse[1] = table.second_flop;
+        bot_chanse[2] = table.third_flop;
+        bot_chanse[3] = bot_hand.first;
+        bot_chanse[4] = bot_hand.second;
+        bot_chanse[5] = table.turn;
+
         for (int i = 0; i < 10000; ++i) {
-            user_chanse[0] = table.first_flop;
-            user_chanse[1] = table.second_flop;
-            user_chanse[2] = table.third_flop;
-            user_chanse[3] = table.turn;
+
             user_chanse[4] = generation();
             user_chanse[5] = generation();
             user_chanse[6] = generation();
 
-            bot_chanse[0] = table.first_flop;
-            bot_chanse[1] = table.second_flop;
-            bot_chanse[2] = table.third_flop;
-            bot_chanse[3] = bot_hand.first;
-            bot_chanse[4] = bot_hand.second;
-            bot_chanse[5] = table.turn;
             bot_chanse[6] = user_chanse[4];
 
             test_table.turn = user_chanse[3];
@@ -1166,7 +1171,7 @@ float win_chanse(int round) {
             test_hand.second = user_chanse[6];
             //printf("bot - %.3f \n user - %.3f\n", river_comb(bot_chanse),river_comb(user_chanse));
             if (river_comb(bot_chanse) > river_comb(user_chanse)) {
-                chanse += 1;
+                chanse ++;
             }
             for (int j = 0; j < 53; ++j) {
                 usage[j] = copy_usage[j];
@@ -1175,12 +1180,21 @@ float win_chanse(int round) {
         return chanse / 10000;
     }
     else if (round == 3) {
+        user_chanse[0] = table.first_flop;
+        user_chanse[1] = table.second_flop;
+        user_chanse[2] = table.third_flop;
+        user_chanse[3] = table.turn;
+        user_chanse[4] = table.river;
+
+        bot_chanse[0] = table.first_flop;
+        bot_chanse[1] = table.second_flop;
+        bot_chanse[2] = table.third_flop;
+        bot_chanse[3] = bot_hand.first;
+        bot_chanse[4] = bot_hand.second;
+        bot_chanse[5] = table.turn;
+        bot_chanse[6] = table.river;
         for (int i = 0; i < 10000; ++i) {
-            user_chanse[0] = table.first_flop;
-            user_chanse[1] = table.second_flop;
-            user_chanse[2] = table.third_flop;
-            user_chanse[3] = table.turn;
-            user_chanse[4] = table.river;
+
             user_chanse[5] = generation();
             user_chanse[6] = generation();
 
@@ -1190,16 +1204,10 @@ float win_chanse(int round) {
             test_hand.first = user_chanse[5];
             test_hand.second = user_chanse[6];
 
-            bot_chanse[0] = table.first_flop;
-            bot_chanse[1] = table.second_flop;
-            bot_chanse[2] = table.third_flop;
-            bot_chanse[3] = bot_hand.first;
-            bot_chanse[4] = bot_hand.second;
-            bot_chanse[5] = table.turn;
-            bot_chanse[6] = table.river;
+
             //printf("bot - %.3f \n user - %.3f\n", river_comb(bot_chanse),river_comb(user_chanse));
             if (river_comb(bot_chanse) > river_comb(user_chanse)) {
-                chanse += 1;
+                chanse ++;
             }
             for (int j = 0; j < 53; ++j) {
                 usage[j] = copy_usage[j];
@@ -1248,10 +1256,6 @@ void ClearScreen()
 
 void printinfo(Datagame datagame) {
     printf("bot bet: %d Bot balance: %d\nPlayer bet: %d Player balance: %d\nBank: %d\n", datagame.bot_bet, datagame.bot_balance, datagame.your_bet, datagame.your_balance, datagame.bank);
-}
-
-void print_info_bots(Datagame datagame) {
-    printf("Bot Tomas bet: %d Bot Tomas balance: %d\nBot John bet: %d Bot John balance: %d\nBank: %d\n", datagame.bot_bet, datagame.bot_balance, datagame.bot1_bet, datagame.bot1_balance, datagame.bank);
 }
 
 Datagame blind(Datagame datagame) {
@@ -1439,43 +1443,6 @@ Datagame bot_all_in(Datagame datagame) {
     return datagame;
 
 
-}
-
-Datagame bot_bet(Datagame datagame) {
-    printf("\n!!!Bot bet!!!\n");
-    ////srand(time(NULL));
-    //int bet = rand() % 101 + 100;
-    //if (bet > datagame.bot_balance) bet = datagame.bot_balance;
-
-    //datagame.bank += bet;
-    //datagame.bot_bet += bet;
-    //datagame.bot_balance -= bet;
-    ////printinfo(datagame);
-    //datagame = action(datagame);
-    //return datagame;
-
-    int bet;
-    bet = datagame.win_chanse * datagame.bank;
-    int raznica = datagame.your_bet - datagame.bot_bet;
-    if (datagame.your_balance == 0)  bet = raznica;
-    else {
-        while (bet < raznica) bet += datagame.win_chanse * datagame.bank;
-        if (bet > datagame.bot_balance) bet = datagame.bot_balance;
-    }
-
-
-    if (datagame.bot_bet < datagame.your_bet) {
-        datagame.bank -= datagame.your_bet - datagame.bot_bet;
-        datagame.your_bet = datagame.bot_bet;
-    }
-
-    datagame.bank += bet;
-    datagame.bot_bet += bet;
-    datagame.bot_balance -= bet;
-    printinfo(datagame);
-
-    datagame = action(datagame);
-    return datagame;
 }
 
 Datagame bot_check(Datagame datagame) {
@@ -1687,20 +1654,21 @@ float win_chanse_bot(int round) {
 
 
     if (round == 1) {
+        bot1_chanse[0] = table.first_flop;
+        bot1_chanse[1] = table.second_flop;
+        bot1_chanse[2] = table.third_flop;
+
+        bot_chanse[0] = table.first_flop;
+        bot_chanse[1] = table.second_flop;
+        bot_chanse[2] = table.third_flop;
+        bot_chanse[3] = bot_hand.first;
+        bot_chanse[4] = bot_hand.second;
         for (int i = 0; i < 10000; ++i) {
-            bot1_chanse[0] = table.first_flop;
-            bot1_chanse[1] = table.second_flop;
-            bot1_chanse[2] = table.third_flop;
             bot1_chanse[3] = generation();
             bot1_chanse[4] = generation();
             bot1_chanse[5] = generation();
             bot1_chanse[6] = generation();
 
-            bot_chanse[0] = table.first_flop;
-            bot_chanse[1] = table.second_flop;
-            bot_chanse[2] = table.third_flop;
-            bot_chanse[3] = bot_hand.first;
-            bot_chanse[4] = bot_hand.second;
             bot_chanse[5] = bot1_chanse[3];
             bot_chanse[6] = bot1_chanse[4];
 
@@ -1710,10 +1678,10 @@ float win_chanse_bot(int round) {
             test_hand.first = bot1_chanse[5];
             test_hand.second = bot1_chanse[6];
             if (river_comb(bot_chanse) > river_comb(bot1_chanse)) {
-                chanse += 1;
+                chanse ++;
             }
             else if (river_comb(bot_chanse) == river_comb(bot1_chanse)) {
-                draw += 1;
+                draw ++;
             }
             for (int j = 0; j < 53; ++j) {
                 usage[j] = copy_usage[j];
@@ -1726,21 +1694,22 @@ float win_chanse_bot(int round) {
         return chanse / 10000;
     }
     else if (round == 2) {
+        bot1_chanse[0] = table.first_flop;
+        bot1_chanse[1] = table.second_flop;
+        bot1_chanse[2] = table.third_flop;
+        bot1_chanse[3] = table.turn;
+
+        bot_chanse[0] = table.first_flop;
+        bot_chanse[1] = table.second_flop;
+        bot_chanse[2] = table.third_flop;
+        bot_chanse[3] = bot_hand.first;
+        bot_chanse[4] = bot_hand.second;
+        bot_chanse[5] = table.turn;
         for (int i = 0; i < 10000; ++i) {
-            bot1_chanse[0] = table.first_flop;
-            bot1_chanse[1] = table.second_flop;
-            bot1_chanse[2] = table.third_flop;
-            bot1_chanse[3] = table.turn;
             bot1_chanse[4] = generation();
             bot1_chanse[5] = generation();
             bot1_chanse[6] = generation();
 
-            bot_chanse[0] = table.first_flop;
-            bot_chanse[1] = table.second_flop;
-            bot_chanse[2] = table.third_flop;
-            bot_chanse[3] = bot_hand.first;
-            bot_chanse[4] = bot_hand.second;
-            bot_chanse[5] = table.turn;
             bot_chanse[6] = bot1_chanse[4];
 
             test_table.turn = bot1_chanse[3];
@@ -1749,10 +1718,10 @@ float win_chanse_bot(int round) {
             test_hand.first = bot1_chanse[5];
             test_hand.second = bot1_chanse[6];
             if (river_comb(bot_chanse) > river_comb(bot1_chanse)) {
-                chanse += 1;
+                chanse ++;
             }
             else if (river_comb(bot_chanse) == river_comb(bot1_chanse)) {
-                draw += 1;
+                draw ++;
             }
             for (int j = 0; j < 53; ++j) {
                 usage[j] = copy_usage[j];
@@ -1765,12 +1734,20 @@ float win_chanse_bot(int round) {
         return chanse / 10000;
     }
     else if (round == 3) {
+        bot1_chanse[0] = table.first_flop;
+        bot1_chanse[1] = table.second_flop;
+        bot1_chanse[2] = table.third_flop;
+        bot1_chanse[3] = table.turn;
+        bot1_chanse[4] = table.river;
+
+        bot_chanse[0] = table.first_flop;
+        bot_chanse[1] = table.second_flop;
+        bot_chanse[2] = table.third_flop;
+        bot_chanse[3] = bot_hand.first;
+        bot_chanse[4] = bot_hand.second;
+        bot_chanse[5] = table.turn;
+        bot_chanse[6] = table.river;
         for (int i = 0; i < 10000; ++i) {
-            bot1_chanse[0] = table.first_flop;
-            bot1_chanse[1] = table.second_flop;
-            bot1_chanse[2] = table.third_flop;
-            bot1_chanse[3] = table.turn;
-            bot1_chanse[4] = table.river;
             bot1_chanse[5] = generation();
             bot1_chanse[6] = generation();
 
@@ -1780,18 +1757,12 @@ float win_chanse_bot(int round) {
             test_hand.first = bot1_chanse[5];
             test_hand.second = bot1_chanse[6];
 
-            bot_chanse[0] = table.first_flop;
-            bot_chanse[1] = table.second_flop;
-            bot_chanse[2] = table.third_flop;
-            bot_chanse[3] = bot_hand.first;
-            bot_chanse[4] = bot_hand.second;
-            bot_chanse[5] = table.turn;
-            bot_chanse[6] = table.river;
+
             if (river_comb(bot_chanse) > river_comb(bot1_chanse)) {
-                chanse += 1;
+                chanse ++;
             }
             else if (river_comb(bot_chanse) == river_comb(bot1_chanse)) {
-                draw += 1;
+                draw ++;
             }
             for (int j = 0; j < 53; ++j) {
                 usage[j] = copy_usage[j];
@@ -1801,129 +1772,6 @@ float win_chanse_bot(int round) {
         win_ch = chanse / 10000;
         datagame.win_chanse1 = 1 - win_ch - draw_chanse;
         datagame.win_chanse = win_ch;
-        return chanse / 10000;
-    }
-}
-
-float win_chanse_bot1(int round) {
-    hand test_hand;
-    tb test_table;
-    float chanse = 0;
-    for (int i = 0; i < 53; ++i) {
-        copy_usage[i] = usage[i];
-    }
-    float win_procent;
-    int bot_chanse[7];
-    int bot1_chanse[7];
-    test_table.first_flop = table.first_flop;
-    test_table.second_flop = table.second_flop;
-    test_table.third_flop = table.third_flop;
-
-
-    if (round == 1) {
-        for (int i = 0; i < 10000; ++i) {
-            bot_chanse[0] = table.first_flop;
-            bot_chanse[1] = table.second_flop;
-            bot_chanse[2] = table.third_flop;
-            bot_chanse[3] = generation();
-            bot_chanse[4] = generation();
-            bot_chanse[5] = generation();
-            bot_chanse[6] = generation();
-
-            bot1_chanse[0] = table.first_flop;
-            bot1_chanse[1] = table.second_flop;
-            bot1_chanse[2] = table.third_flop;
-            bot1_chanse[3] = bot_hand.first;
-            bot1_chanse[4] = bot_hand.second;
-            bot1_chanse[5] = bot_chanse[3];
-            bot1_chanse[6] = bot_chanse[4];
-
-            test_table.turn = bot_chanse[3];
-            test_table.river = bot_chanse[4];
-
-            test_hand.first = bot_chanse[5];
-            test_hand.second = bot_chanse[6];
-
-            //            printf("\ntest bot hand\n");
-            //            print_hand(bot_hand);
-            //            printf("\ntest user hand\n");
-            //            print_hand(test_hand);
-            //            printf("\ntest table\n");
-            //            print_table(5,test_table);
-            //printf("bot - %.3f \n user - %.3f\n", river_comb(bot_chanse),river_comb(user_chanse));
-            if (river_comb(bot1_chanse) > river_comb(bot_chanse)) {
-                chanse += 1;
-            }
-            for (int j = 0; j < 53; ++j) {
-                usage[j] = copy_usage[j];
-            }
-        }
-        return chanse / 10000;
-    }
-    else if (round == 2) {
-        for (int i = 0; i < 10000; ++i) {
-            bot_chanse[0] = table.first_flop;
-            bot_chanse[1] = table.second_flop;
-            bot_chanse[2] = table.third_flop;
-            bot_chanse[3] = table.turn;
-            bot_chanse[4] = generation();
-            bot_chanse[5] = generation();
-            bot_chanse[6] = generation();
-
-            bot1_chanse[0] = table.first_flop;
-            bot1_chanse[1] = table.second_flop;
-            bot1_chanse[2] = table.third_flop;
-            bot1_chanse[3] = bot_hand.first;
-            bot1_chanse[4] = bot_hand.second;
-            bot1_chanse[5] = table.turn;
-            bot1_chanse[6] = bot_chanse[4];
-
-            test_table.turn = bot_chanse[3];
-            test_table.river = bot_chanse[4];
-
-            test_hand.first = bot_chanse[5];
-            test_hand.second = bot_chanse[6];
-            //printf("bot - %.3f \n user - %.3f\n", river_comb(bot_chanse),river_comb(user_chanse));
-            if (river_comb(bot1_chanse) > river_comb(bot_chanse)) {
-                chanse += 1;
-            }
-            for (int j = 0; j < 53; ++j) {
-                usage[j] = copy_usage[j];
-            }
-        }
-        return chanse / 10000;
-    }
-    else if (round == 3) {
-        for (int i = 0; i < 10000; ++i) {
-            bot_chanse[0] = table.first_flop;
-            bot_chanse[1] = table.second_flop;
-            bot_chanse[2] = table.third_flop;
-            bot_chanse[3] = table.turn;
-            bot_chanse[4] = table.river;
-            bot_chanse[5] = generation();
-            bot_chanse[6] = generation();
-
-            test_table.turn = bot_chanse[3];
-            test_table.river = bot_chanse[4];
-
-            test_hand.first = bot_chanse[5];
-            test_hand.second = bot_chanse[6];
-
-            bot1_chanse[0] = table.first_flop;
-            bot1_chanse[1] = table.second_flop;
-            bot1_chanse[2] = table.third_flop;
-            bot1_chanse[3] = bot_hand.first;
-            bot1_chanse[4] = bot_hand.second;
-            bot1_chanse[5] = table.turn;
-            bot1_chanse[6] = table.river;
-            //printf("bot - %.3f \n user - %.3f\n", river_comb(bot_chanse),river_comb(user_chanse));
-            if (river_comb(bot1_chanse) > river_comb(bot_chanse)) {
-                chanse += 1;
-            }
-            for (int j = 0; j < 53; ++j) {
-                usage[j] = copy_usage[j];
-            }
-        }
         return chanse / 10000;
     }
 }
@@ -1985,7 +1833,6 @@ void blind_bots() {
     //print_info_bots(datagame);
     //return datagame;
 }; //блайнды (начальные, обязательные ставки)
-
 
 void bot_vs_bot() {
     if (datagame.bot_balance != 0 && datagame.bot1_balance != 0 || datagame.bot_bet != datagame.bot1_bet) { //условие, чтоб партия доигрывалась не вызывались ставки, если один из игроков не может поставить
