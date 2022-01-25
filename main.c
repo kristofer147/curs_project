@@ -227,26 +227,11 @@ int main() {
                 table.first_flop = generation();
                 table.second_flop = generation();
                 table.third_flop = generation();
-                int flop[5];
-                flop[0] = table.first_flop;
-                flop[1] = table.second_flop;
-                flop[2] = table.third_flop;
-                flop[3] = user_hand.first;
-                flop[4] = user_hand.second;
-                //printf("gamer comb flop\n");
+
                 print_hand(user_hand);
                 printf("Table:\n");
                 print_table(3, table);
 
-                // printf("\n%.3f\n", win_chanse(1));
-
-                datagame.user_chanse = flop_comb(flop);
-                flop[0] = table.first_flop;
-                flop[1] = table.second_flop;
-                flop[2] = table.third_flop;
-                flop[3] = bot_hand.first;
-                flop[4] = bot_hand.second;
-                datagame.bot_chanse = flop_comb(flop);
                 datagame = blind(datagame);
                 datagame.win_chanse = win_chanse(1);
                 datagame = action(datagame);
@@ -254,26 +239,11 @@ int main() {
                 //раунд тёрн
                 int turn[6];
                 table.turn = generation();
-                //printf("gamer comb turn\n");
                 printf("Your hand:\n");
                 print_hand(user_hand);
                 printf("Table:\n");
                 print_table(4, table);
-                turn[0] = table.first_flop;
-                turn[1] = table.second_flop;
-                turn[2] = table.third_flop;
-                turn[3] = table.turn;
-                turn[4] = user_hand.first;
-                turn[5] = user_hand.second;
-                datagame.user_chanse = turn_comb(turn);
-                turn[0] = table.first_flop;
-                turn[1] = table.second_flop;
-                turn[2] = table.third_flop;
-                turn[3] = table.turn;
-                turn[4] = bot_hand.first;
-                turn[5] = bot_hand.second;
 
-                datagame.bot_chanse = turn_comb(turn);
                 datagame.win_chanse = win_chanse(2);
                 datagame = action(datagame);
                 if (datagame.restart == 1) continue;
@@ -290,8 +260,8 @@ int main() {
                 river[4] = table.river;
                 river[5] = user_hand.first;
                 river[6] = user_hand.second;
-                datagame.user_chanse = river_comb(river);
 
+                datagame.user_chanse = river_comb(river);
 
                 river[0] = table.first_flop;
                 river[1] = table.second_flop;
@@ -305,50 +275,34 @@ int main() {
                 datagame.win_chanse = win_chanse(3);
                 datagame = action(datagame);
                 if (datagame.restart == 1) continue;
+                printf("Bot hand: %0.3f\n",datagame.bot_chanse);
+                print_hand(bot_hand);
+                printf("Your hand: %0.3f\n",datagame.user_chanse);
+                print_hand(user_hand);
+                printf("Table:\n");
+                print_table(5, table);
+                datagame.bot_bet = 0;
+                datagame.your_bet = 0;
+
                 if (datagame.user_chanse > datagame.bot_chanse) {
-                    printf("Bot hand:\n");
-                    print_hand(bot_hand);
-                    printf("Your hand:\n");
-                    print_hand(user_hand);
-                    printf("Table:\n");
-                    print_table(5, table);
                     printf("You win\n");
                     datagame.your_balance += datagame.bank;
                     datagame.bank = 0;
-                    datagame.bot_bet = 0;
-                    datagame.your_bet = 0;
-                }
-                if (datagame.user_chanse < datagame.bot_chanse) {
-                    printf("Bot hand:\n");
-                    print_hand(bot_hand);
-                    printf("Your hand:\n");
-                    print_hand(user_hand);
-                    printf("Table:\n");
-                    print_table(5, table);
+                }else if (datagame.user_chanse < datagame.bot_chanse) {
                     printf("Bot win\n");
                     datagame.bot_balance += datagame.bank;
                     datagame.bank = 0;
-                    datagame.bot_bet = 0;
-                    datagame.your_bet = 0;
-                }
-                if (datagame.user_chanse == datagame.bot_chanse) {
-                    printf("Bot hand:\n");
-                    print_hand(bot_hand);
-                    printf("Your hand:\n");
-                    print_hand(user_hand);
-                    printf("Table:\n");
-                    print_table(5, table);
+                }else if (datagame.user_chanse == datagame.bot_chanse) {
                     printf("DRAW\n");
                     datagame.your_balance += datagame.bank / 2;
                     datagame.bot_balance += datagame.bank / 2;
                     datagame.bank = 0;
-                    datagame.bot_bet = 0;
-                    datagame.your_bet = 0;
                 }
             }
             if (datagame.bot_balance == 0) printf("You win\n");
             if (datagame.your_balance == 0) printf("Bot win\n");
             break;
+
         case 2:
             for (int i = 0; i < 100; ++i) {
                 datagame.bot_balance = 5000;
@@ -393,8 +347,7 @@ int main() {
                     if (datagame.bot_chanse < 0) {
                         if (bot_hand.first >= bot_hand.second) {
                             datagame.bot_chanse = (bot_hand.first % 13) / 118 * 100;
-                        }
-                        else if (bot_hand.first < bot_hand.second) {
+                        }else if (bot_hand.first < bot_hand.second) {
                             datagame.bot_chanse = (bot_hand.second % 13) / 118 * 100;
                         }
                     }
@@ -900,7 +853,7 @@ void print_hand(hand ghand) {
 int flush_royal(int* dignity, int* suit) {
     if (dignity[0] == 14 && dignity[1] == 13 && dignity[2] == 12 && dignity[3] == 11 && dignity[4] == 10) {
         if (suit[0] == suit[1] && suit[2] == suit[3] && suit[4] == suit[1] && suit[2] == suit[4]) {
-            return 118;
+            return 138;
         }
     }
     return -1;
@@ -927,7 +880,7 @@ int straight_flush(int* dignity, int* suit, int size) {
             if (dignity[i - 1] == dignity[i] + 1 && suit[i - 1] == suit[i]) {
                 straight++;
                 if (straight == 5) {
-                    return 104 + dignity[0];
+                    return 123 + dignity[0];
                 }
             }
             else straight = 0;
@@ -940,7 +893,7 @@ int quads(int* dignity, int size) {
         if (dignity[i] == dignity[i - 1]) {
             if (dignity[i - 2] == dignity[i - 3]) {
                 if (dignity[i] == dignity[i - 3])
-                    return 90 + dignity[i];
+                    return 109 + dignity[i];
             }
         }
     }
@@ -951,7 +904,7 @@ int full_house(int* dignity, int size) {
         if (dignity[i] == dignity[i - 1] && dignity[i - 2] == dignity[i - 1]) {
             for (int j = 1; j < size; ++j) {
                 if (dignity[j - 1] == dignity[j] && dignity[j] != dignity[i]) {
-                    return 78 + dignity[i];
+                    return 95 + dignity[i];
                 }
             }
         }
@@ -969,25 +922,25 @@ int flush(int* suit, int* dignity, int size) {
         for (int i = 0; i < size; ++i) {
             if (suit[i] == 0 && dignity[i] > max) max = dignity[i];
         }
-        return 65 + max;
+        return 81 + max;
     }
     else if (fl[1] >= 5) {
         for (int i = 0; i < size; ++i) {
             if (suit[i] == 1 && dignity[i] > max) max = dignity[i];
         }
-        return 65 + max;
+        return 81 + max;
     }
     else if (fl[2] >= 5) {
         for (int i = 0; i < size; ++i) {
             if (suit[i] == 2 && dignity[i] > max) max = dignity[i];
         }
-        return 65 + max;
+        return 81 + max;
     }
     else if (fl[3] >= 5) {
         for (int i = 0; i < size; ++i) {
             if (suit[i] == 3 && dignity[i] > max) max = dignity[i];
         }
-        return 65 + max;
+        return 81 + max;
     }
     return -1;
 }
@@ -997,7 +950,7 @@ int strait(int* dignity, int size) {
         if (dignity[i - 1] == dignity[i] + 1) {
             straight++;
             if (straight == 4) {
-                return 104 + dignity[0];
+                return 67 + dignity[0];
             }
         }
         else straight = 0;
@@ -1007,7 +960,7 @@ int strait(int* dignity, int size) {
 int set(int* dignity, int size) {
     for (int i = 2; i < size; ++i) {
         if (dignity[i] == dignity[i - 1] && dignity[i - 2] == dignity[i - 1]) {
-            return 39 + dignity[i];
+            return 53 + dignity[i];
         }
     }
     return -1;
@@ -1017,7 +970,7 @@ int two_pair(int* dignity, int size) {
         if (dignity[i] == dignity[i - 1]) {
             for (int j = 1; j < size; ++j) {
                 if (dignity[j - 1] == dignity[j] && dignity[j] != dignity[i]) {
-                    return 26 + dignity[i];
+                    return 26 + dignity[i]+dignity[j];
                 }
             }
         }
