@@ -36,7 +36,7 @@ float tomas_raise_low = 0.4;
 float tomas_raise_high = 0.9;
 float tomas_all_in_low = 0.9;
 
-int blef_tomas = 10;
+short blef_tomas = 10;
 
 //Настройка бота Джона
 float john_check_low = 0.2;
@@ -50,7 +50,7 @@ float john_raise_low = 0.5;
 float john_raise_high = 0.85;
 float john_all_in_low = 0.85;
 
-int blef_john = 5;
+short blef_john = 5;
 
 float check_low;
 
@@ -63,7 +63,7 @@ float raise_low;
 float raise_high;
 float all_in_low;
 
-int blef;
+short blef;
 
 float win_ch = 0;
 float draw_chanse = 0;
@@ -71,45 +71,45 @@ float draw_chanse = 0;
 void ClearScreen();
 
 typedef struct {
-    int first;
-    int second;
+    short first;
+    short second;
 }hand;
 
 typedef struct {
-    int first_flop;
-    int second_flop;
-    int third_flop;
-    int turn;
-    int river;
+    short first_flop;
+    short second_flop;
+    short third_flop;
+    short turn;
+    short river;
 }tb;
 
-int usage[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0 };
+short usage[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0 };
 
-int copy_usage[] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,
-                     0,0,0,0,0,0,0,0,0,0,0,0,0,
-                     0,0,0,0,0,0,0,0,0,0,0,0,0,
-                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
+short copy_usage[] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,
+                       0,0,0,0,0,0,0,0,0,0,0,0,0,
+                       0,0,0,0,0,0,0,0,0,0,0,0,0,
+                       0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
 
 hand user_hand;
-hand bot_hand;
-hand bot1_hand;
+hand second_bot_hand;
+hand first_bot_hand;
 tb table;
 
 float win_chanse(int round);
 
 typedef struct {
     int baton; // для малых и больших блайндов, если 0 бот делает большую ставку на блайнде
-    int bank;
-    int bot_balance;
-    int bot1_balance;
-    int your_balance;
-    int bot_bet;
-    int bot1_bet;
-    int your_bet;
-    int restart;
+    short bank;
+    short bot_balance;
+    short bot1_balance;
+    short your_balance;
+    short bot_bet;
+    short bot1_bet;
+    short your_bet;
+    short restart;
     float user_chanse;
     float bot_chanse;
     float bot1_chanse;
@@ -119,7 +119,7 @@ typedef struct {
 
 Datagame datagame;
 //генерация карты с проверкой на использование
-int generation();
+short generation();
 // Вывод карт стола. карты выводятся по диагонали, так как в строке они съезжают из-за разницы ширины символов
 void print_table(int size, tb ptable);
 //вывод карт на руке
@@ -129,21 +129,21 @@ float flop_comb(int* flop);
 //аналогично для тёрна
 float turn_comb(int* turn);
 //для ривера
-float river_comb(int* river);
+short river_comb(short* river);
 //функция просто выводит старшую карту в колоде если другие комбинации не найдены
-int high_card(int* dignity);
+short high_card(short* dignity);
 //функция ищет пару. далее функции ищут комбинацию указанную в названии
-int pair(int* dignity, int size);
-int two_pair(int* dignity, int size);
-int set(int* dignity, int size);
-int strait(int* dignity, int size);
-int flush(int* suit, int* dignity, int size);
-int full_house(int* dignity, int size);
-int quads(int* dignity, int size);
-int straight_flush(int* dignity, int* suit, int size);
-int flush_royal(int* dignity, int* suit);
+short pair(short* dignity, short size);
+short two_pair(short* dignity, short size);
+short set(short* dignity, short size);
+short strait(short* dignity, short size);
+short flush(short* suit, short* dignity, short size);
+short full_house(short* dignity, short size);
+short quads(short* dignity, short size);
+short straight_flush(short* dignity, short* suit, short size);
+short flush_royal(short* dignity, short* suit);
 //рассчёт силы комбинации
-int combination_power(int* dignity, int* suit, int size);
+short combination_power(short* dignity, short* suit, short size);
 //сортировка входящего массива карт
 void sort(int* arr, int lenght);
 
@@ -216,8 +216,8 @@ int main() {
                 user_hand.first = generation();
                 user_hand.second = generation();
 
-                bot_hand.first = generation();
-                bot_hand.second = generation();
+                second_bot_hand.first = generation();
+                second_bot_hand.second = generation();
 
                 //раунд флоп
                 //происходит генерация первых трёх карт для стола и карт для рук бота и игрока. по названиям переменных думаю ясно что есть что
@@ -248,7 +248,7 @@ int main() {
                 datagame = action(datagame);
                 if (datagame.restart == 1) continue;
                 table.river = generation();
-                int river[7];
+                short river[7];
                 printf("Your hand:\n");
                 print_hand(user_hand);
                 printf("Talbe:\n");
@@ -268,15 +268,15 @@ int main() {
                 river[2] = table.third_flop;
                 river[3] = table.turn;
                 river[4] = table.river;
-                river[5] = bot_hand.first;
-                river[6] = bot_hand.second;
+                river[5] = second_bot_hand.first;
+                river[6] = second_bot_hand.second;
 
                 datagame.bot_chanse = river_comb(river);
                 datagame.win_chanse = win_chanse(3);
                 datagame = action(datagame);
                 if (datagame.restart == 1) continue;
                 printf("Bot hand: %0.3f\n",datagame.bot_chanse);
-                print_hand(bot_hand);
+                print_hand(second_bot_hand);
                 printf("Your hand: %0.3f\n",datagame.user_chanse);
                 print_hand(user_hand);
                 printf("Table:\n");
@@ -314,11 +314,11 @@ int main() {
 
                     //printf("\nNEW GAME!\n");
 
-                    bot_hand.first = generation();
-                    bot_hand.second = generation();
+                    second_bot_hand.first = generation();
+                    second_bot_hand.second = generation();
 
-                    bot1_hand.first = generation();
-                    bot1_hand.second = generation();
+                    first_bot_hand.first = generation();
+                    first_bot_hand.second = generation();
 
                     //раунд флоп
                     //происходит генерация первых трёх карт для стола и карт для рук бота и игрока. по названиям переменных думаю ясно что есть что
@@ -328,47 +328,18 @@ int main() {
                     table.first_flop = generation();
                     table.second_flop = generation();
                     table.third_flop = generation();
-                    int flop[5];
-                    flop[0] = table.first_flop;
-                    flop[1] = table.second_flop;
-                    flop[2] = table.third_flop;
-                    flop[3] = bot_hand.first;
-                    flop[4] = bot_hand.second;
+
                     //printf("gamer comb flop\n");
 //                    printf("Bot Tomas hand:\n");
-//                    print_hand(bot_hand);
+//                    print_hand(second_bot_hand);
 //                    printf("Bot John hand:\n");
-//                    print_hand(bot1_hand);
+//                    print_hand(first_bot_hand);
 //                    printf("Table:\n");
 //                    print_table(3, table);
                     // printf("\n%.3f\n", win_chanse(1));
 
-                    datagame.bot_chanse = flop_comb(flop);
-                    if (datagame.bot_chanse < 0) {
-                        if (bot_hand.first >= bot_hand.second) {
-                            datagame.bot_chanse = (bot_hand.first % 13) / 118 * 100;
-                        }else if (bot_hand.first < bot_hand.second) {
-                            datagame.bot_chanse = (bot_hand.second % 13) / 118 * 100;
-                        }
-                    }
-                    flop[0] = table.first_flop;
-                    flop[1] = table.second_flop;
-                    flop[2] = table.third_flop;
-                    flop[3] = bot1_hand.first;
-                    flop[4] = bot1_hand.second;
-
-
-                    datagame.bot1_chanse = flop_comb(flop);
-                    if (datagame.bot1_chanse < 0) {
-                        if (bot1_hand.first >= bot1_hand.second) {
-                            datagame.bot1_chanse = (bot1_hand.first % 13) / 118 * 100;
-                        }
-                        else if (bot1_hand.first < bot1_hand.second) {
-                            datagame.bot1_chanse = (bot1_hand.second % 13) / 118 * 100;
-                        }
-                    }
                     //printf("bot comb flop\n");
-                    //print_hand(bot_hand);
+                    //print_hand(second_bot_hand);
                     //print_table(3, table);
 
                     blind_bots();
@@ -386,51 +357,22 @@ int main() {
                     // printf("\nwin percent = %.3f\n", win_chanse(1));
 
                     //раунд тёрн
-                    int turn[6];
+
                     table.turn = generation();
                     //printf("gamer comb turn\n");
 //                    printf("Bot Tomas hand:\n");
-//                    print_hand(bot_hand);
+//                    print_hand(second_bot_hand);
 //                    printf("Bot John hand:\n");
-//                    print_hand(bot1_hand);
+//                    print_hand(first_bot_hand);
 //                    printf("Table:\n");
 //                    print_table(4, table);
-                    turn[0] = table.first_flop;
-                    turn[1] = table.second_flop;
-                    turn[2] = table.third_flop;
-                    turn[3] = table.turn;
-                    turn[4] = bot_hand.first;
-                    turn[5] = bot_hand.second;
-                    datagame.bot_chanse = turn_comb(turn);
-                    if (datagame.bot_chanse < 0) {
-                        if (bot_hand.first >= bot_hand.second) {
-                            datagame.bot_chanse = (bot_hand.first % 13) / 118 * 100;
-                        }
-                        else if (bot_hand.first < bot_hand.second) {
-                            datagame.bot_chanse = (bot_hand.second % 13) / 118 * 100;
-                        }
-                    }
+
                     //printf("bot comb turn\n");
-                    //print_hand(bot_hand);
+                    //print_hand(second_bot_hand);
                     //print_table(4, table);
                     // printf("\n%.3f\n", win_chanse(2));
 
-                    turn[0] = table.first_flop;
-                    turn[1] = table.second_flop;
-                    turn[2] = table.third_flop;
-                    turn[3] = table.turn;
-                    turn[4] = bot1_hand.first;
-                    turn[5] = bot1_hand.second;
 
-                    datagame.bot1_chanse = turn_comb(turn);
-                    if (datagame.bot1_chanse < 0) {
-                        if (bot1_hand.first >= bot1_hand.second) {
-                            datagame.bot1_chanse = (bot1_hand.first % 13) / 118 * 100;
-                        }
-                        else if (bot1_hand.first < bot1_hand.second) {
-                            datagame.bot1_chanse = (bot1_hand.second % 13) / 118 * 100;
-                        }
-                    }
 
                     win_chanse_bot(2);
                     //printf("\nbot Tomas - %f bot John - %f draw - %f\n", datagame.win_chanse, datagame.win_chanse1, draw_chanse);
@@ -446,12 +388,12 @@ int main() {
                     //  printf("\nwin percent = %.3f\n", win_chanse(2));
                     //раунд ривер
                     table.river = generation();
-                    int river[7];
+                    short river[7];
                     //printf("gamer comb turn\n");
 //                    printf("Bot Tomas hand:\n");
-//                    print_hand(bot_hand);
+//                    print_hand(second_bot_hand);
 //                    printf("Bot John hand:\n");
-//                    print_hand(bot1_hand);
+//                    print_hand(first_bot_hand);
 //                    printf("Talbe:\n");
 //                    print_table(5, table);
                     river[0] = table.first_flop;
@@ -459,19 +401,11 @@ int main() {
                     river[2] = table.third_flop;
                     river[3] = table.turn;
                     river[4] = table.river;
-                    river[5] = bot_hand.first;
-                    river[6] = bot_hand.second;
+                    river[5] = second_bot_hand.first;
+                    river[6] = second_bot_hand.second;
                     datagame.bot_chanse = river_comb(river);
-                    if (datagame.bot_chanse < 0) {
-                        if (bot_hand.first >= bot_hand.second) {
-                            datagame.bot_chanse = (bot_hand.first % 13) / 118 * 100;
-                        }
-                        else if (bot_hand.first < bot_hand.second) {
-                            datagame.bot_chanse = (bot_hand.second % 13) / 118 * 100;
-                        }
-                    }
                     //printf("bot comb river\n");
-                    //print_hand(bot_hand);
+                    //print_hand(second_bot_hand);
                     //print_table(5, table);
                     // printf("\n%.3f\n", win_chanse(3));
 
@@ -480,18 +414,9 @@ int main() {
                     river[2] = table.third_flop;
                     river[3] = table.turn;
                     river[4] = table.river;
-                    river[5] = bot1_hand.first;
-                    river[6] = bot1_hand.second;
-
+                    river[5] = first_bot_hand.first;
+                    river[6] = first_bot_hand.second;
                     datagame.bot1_chanse = river_comb(river);
-                    if (datagame.bot1_chanse < 0) {
-                        if (bot1_hand.first >= bot1_hand.second) {
-                            datagame.bot1_chanse = (bot1_hand.first % 13) / 118 * 100;
-                        }
-                        else if (bot1_hand.first < bot1_hand.second) {
-                            datagame.bot1_chanse = (bot1_hand.second % 13) / 118 * 100;
-                        }
-                    }
                     win_chanse_bot(3);
                     //printf("\nbot TOmas - %f bot John - %f draw - %f\n", datagame.win_chanse, datagame.win_chanse1, draw_chanse);
                     //                datagame.win_chanse = win_chanse_bot(3);
@@ -506,9 +431,9 @@ int main() {
                     //  printf("\nwin percent = %.3f\n", win_chanse(3));
                     if (datagame.bot_chanse > datagame.bot1_chanse) {
                         //                        printf("Bot Tomas hand:\n");
-                        //                        print_hand(bot_hand);
+                        //                        print_hand(second_bot_hand);
                         //                        printf("Bot John hand:\n");
-                        //                        print_hand(bot1_hand);
+                        //                        print_hand(first_bot_hand);
                         //                        printf("Table:\n");
                         //                        print_table(5, table);
                         //                        printf("Bot Tomas win\n");
@@ -519,12 +444,11 @@ int main() {
                         datagame.bank = 0;
                         datagame.bot_bet = 0;
                         datagame.bot1_bet = 0;
-                    }
-                    if (datagame.bot_chanse < datagame.bot1_chanse) {
+                    }else if (datagame.bot_chanse < datagame.bot1_chanse) {
                         //                        printf("Bot Tomas hand:\n");
-                        //                        print_hand(bot_hand);
+                        //                        print_hand(second_bot_hand);
                         //                        printf("Bot John hand:\n");
-                        //                        print_hand(bot1_hand);
+                        //                        print_hand(first_bot_hand);
                         //                        printf("Table:\n");
                         //                        print_table(5, table);
                         //                        printf("Bot John win\n");
@@ -535,12 +459,11 @@ int main() {
                         datagame.bank = 0;
                         datagame.bot_bet = 0;
                         datagame.bot1_bet = 0;
-                    }
-                    if (datagame.bot_chanse == datagame.bot1_chanse) {
+                    }else if (datagame.bot_chanse == datagame.bot1_chanse) {
                         //                        printf("Bot Tomas hand:\n");
-                        //                        print_hand(bot_hand);
+                        //                        print_hand(second_bot_hand);
                         //                        printf("Bot John hand:\n");
-                        //                        print_hand(bot1_hand);
+                        //                        print_hand(first_bot_hand);
                         //                        printf("Table:\n");
                         //                        print_table(5, table);
                         //                        printf("DRAW\n");
@@ -561,12 +484,16 @@ int main() {
                 if (datagame.bot1_balance == 0) printf("Bot Tomas win\n");
                 //break;
             }
+
+        default:
+            printf("Incorrect gamemod input, try again");
+            break;
     }
     return 0;
 }
 
-int generation() {
-    int card = rand() % 52 + 1;
+short generation(){
+    short card = rand() % 52 + 1;
     while (1 > 0) {
         if (usage[card] != 0) {
             card = rand() % 52 + 1;
@@ -578,66 +505,11 @@ int generation() {
     }
 }
 
-float flop_comb(int* flop) {
-    //поскольку максимально возможная сила комбинации 118 то силу(strong) я рассчитываю просто как отношение существующей силы к максимальной
-    //здесь массив сортируется и путём деления получаются масти и достоинство карт, после чего сформированный массив отправляется на проверку
-    //остальные функции раундов действуют аналогично
-    float strong = 0;
-    int high_hand;
-    if ((flop[3] % 13 + 1) > (flop[4] % 13 + 1)) {
-        high_hand = flop[3] % 13 + 2;
-    }
-    else {
-        high_hand = flop[4] % 13 + 2;
-    }
-    int suit[5];
-    int dignity[5];
-    sort(flop, 5);
-    for (int i = 0; i < 5; ++i) {
-        if (flop[i] != 52) {
-            suit[i] = flop[i] / 13;
-        }
-        else { suit[i] = 0; }
-        dignity[i] = flop[i] % 13 + 2;
-    }
-    strong = combination_power(dignity, suit, 5);
-    if (strong == -1) {
-        strong = high_hand;
-    }
-    //printf("\n\n");
-    return strong / 118 * 100;
-}
-float turn_comb(int* turn) {
-    float strong = 0;
-    int suit[6];
-    int dignity[6];
-    int high_hand;
-    if ((turn[4] % 13 + 1) > (turn[5] % 13 + 1)) {
-        high_hand = turn[4] % 13 + 2;
-    }
-    else {
-        high_hand = turn[5] % 13 + 2;
-    }
-    sort(turn, 6);
-    for (int i = 0; i < 6; ++i) {
-        if (turn[i] != 52) {
-            suit[i] = turn[i] / 13;
-        }
-        else { suit[i] = 0; }
-        dignity[i] = turn[i] % 13 + 2;
-    }
-    strong = combination_power(dignity, suit, 6);
-    if (strong == -1) {
-        strong = high_hand;
-    }
-    //printf("\n\n");
-    return strong / 118 * 100;
-}
-float river_comb(int* river) {
-    float strong = 0;
-    int suit[7];
-    int dignity[7];
-    int high_hand;
+short river_comb(short* river) {
+    short strong = 0;
+    short suit[7];
+    short dignity[7];
+    short high_hand;
     if ((river[5] % 13 + 1) > (river[6] % 13 + 1)) {
         high_hand = river[5] % 13 + 2;
     }
@@ -657,7 +529,7 @@ float river_comb(int* river) {
     if (strong == -1) {
         strong = high_hand;
     }
-    return strong / 118 * 100;
+    return strong;
 }
 
 void sort(int* arr, int lenght) {
@@ -850,7 +722,7 @@ void print_hand(hand ghand) {
     printf("\n");
 }
 
-int flush_royal(int* dignity, int* suit) {
+short flush_royal(short* dignity, short* suit) {
     if (dignity[0] == 14 && dignity[1] == 13 && dignity[2] == 12 && dignity[3] == 11 && dignity[4] == 10) {
         if (suit[0] == suit[1] && suit[2] == suit[3] && suit[4] == suit[1] && suit[2] == suit[4]) {
             return 138;
@@ -858,7 +730,7 @@ int flush_royal(int* dignity, int* suit) {
     }
     return -1;
 }
-int straight_flush(int* dignity, int* suit, int size) {
+short straight_flush(short* dignity, short* suit, short size) {
     int mast[4] = { 0 };
     int straight = 1;
     for (int i = 0; i < size; ++i) {
@@ -888,7 +760,7 @@ int straight_flush(int* dignity, int* suit, int size) {
     }
     return -1;
 }
-int quads(int* dignity, int size) {
+short quads(short* dignity, short size) {
     for (int i = 3; i < size; ++i) {
         if (dignity[i] == dignity[i - 1]) {
             if (dignity[i - 2] == dignity[i - 3]) {
@@ -899,7 +771,7 @@ int quads(int* dignity, int size) {
     }
     return -1;
 }
-int full_house(int* dignity, int size) {
+short full_house(short* dignity, short size) {
     for (int i = 2; i < size; ++i) {
         if (dignity[i] == dignity[i - 1] && dignity[i - 2] == dignity[i - 1]) {
             for (int j = 1; j < size; ++j) {
@@ -911,7 +783,7 @@ int full_house(int* dignity, int size) {
     }
     return -1;
 }
-int flush(int* suit, int* dignity, int size) {
+short flush(short* suit, short* dignity, short size) {
     int fl[4] = { 0 };
     int max = 0;
     for (int i = 0; i < size; ++i) {
@@ -944,7 +816,7 @@ int flush(int* suit, int* dignity, int size) {
     }
     return -1;
 }
-int strait(int* dignity, int size) {
+short strait(short* dignity, short size) {
     int straight = 0;
     for (int i = 1; i < size; ++i) {
         if (dignity[i - 1] == dignity[i] + 1) {
@@ -957,7 +829,7 @@ int strait(int* dignity, int size) {
     }
     return -1;
 }
-int set(int* dignity, int size) {
+short set(short* dignity, short size) {
     for (int i = 2; i < size; ++i) {
         if (dignity[i] == dignity[i - 1] && dignity[i - 2] == dignity[i - 1]) {
             return 53 + dignity[i];
@@ -965,7 +837,7 @@ int set(int* dignity, int size) {
     }
     return -1;
 }
-int two_pair(int* dignity, int size) {
+short two_pair(short* dignity, short size) {
     for (int i = 1; i < size; ++i) {
         if (dignity[i] == dignity[i - 1]) {
             for (int j = 1; j < size; ++j) {
@@ -977,7 +849,7 @@ int two_pair(int* dignity, int size) {
     }
     return -1;
 }
-int pair(int* dignity, int size) {
+short pair(short* dignity, short size) {
     for (int i = 1; i < size; ++i) {
         if (dignity[i] == dignity[i - 1]) {
             return 13 + dignity[i];
@@ -985,12 +857,12 @@ int pair(int* dignity, int size) {
     }
     return -1;
 }
-int high_card(int* dignity) {
+short high_card(short* dignity) {
     //printf("high card\n");
     return -1;
 }
-int combination_power(int* dignity, int* suit, int size) {
-    int result = flush_royal(dignity, suit);
+short combination_power(short* dignity, short* suit, short size) {
+    short result = flush_royal(dignity, suit);
     if (result != -1) {
         //printf("flush_royal\n");
         return result;
@@ -1046,8 +918,8 @@ float win_chanse(int round) {
         copy_usage[i] = usage[i];
     }
     float win_procent;
-    int user_chanse[7];
-    int bot_chanse[7];
+    short user_chanse[7];
+    short bot_chanse[7];
     test_table.first_flop = table.first_flop;
     test_table.second_flop = table.second_flop;
     test_table.third_flop = table.third_flop;
@@ -1061,8 +933,8 @@ float win_chanse(int round) {
         bot_chanse[0] = table.first_flop;
         bot_chanse[1] = table.second_flop;
         bot_chanse[2] = table.third_flop;
-        bot_chanse[3] = bot_hand.first;
-        bot_chanse[4] = bot_hand.second;
+        bot_chanse[3] = second_bot_hand.first;
+        bot_chanse[4] = second_bot_hand.second;
 
         for (int i = 0; i < 10000; ++i) {
 
@@ -1081,7 +953,7 @@ float win_chanse(int round) {
             test_hand.second = user_chanse[6];
 
             //            printf("\ntest bot hand\n");
-            //            print_hand(bot_hand);
+            //            print_hand(second_bot_hand);
             //            printf("\ntest user hand\n");
             //            print_hand(test_hand);
             //            printf("\ntest table\n");
@@ -1105,8 +977,8 @@ float win_chanse(int round) {
         bot_chanse[0] = table.first_flop;
         bot_chanse[1] = table.second_flop;
         bot_chanse[2] = table.third_flop;
-        bot_chanse[3] = bot_hand.first;
-        bot_chanse[4] = bot_hand.second;
+        bot_chanse[3] = second_bot_hand.first;
+        bot_chanse[4] = second_bot_hand.second;
         bot_chanse[5] = table.turn;
 
         for (int i = 0; i < 10000; ++i) {
@@ -1142,8 +1014,8 @@ float win_chanse(int round) {
         bot_chanse[0] = table.first_flop;
         bot_chanse[1] = table.second_flop;
         bot_chanse[2] = table.third_flop;
-        bot_chanse[3] = bot_hand.first;
-        bot_chanse[4] = bot_hand.second;
+        bot_chanse[3] = second_bot_hand.first;
+        bot_chanse[4] = second_bot_hand.second;
         bot_chanse[5] = table.turn;
         bot_chanse[6] = table.river;
         for (int i = 0; i < 10000; ++i) {
@@ -1215,8 +1087,8 @@ Datagame blind(Datagame datagame) {
     if (datagame.baton) {
 
         if (datagame.bot_balance < 50 || datagame.your_balance < 50) {
-            datagame.bot_bet += fmin(datagame.bot_balance, datagame.your_balance);
-            datagame.your_bet += fmin(datagame.bot_balance, datagame.your_balance);
+            datagame.bot_bet += fminf(datagame.bot_balance, datagame.your_balance);
+            datagame.your_bet += fminf(datagame.bot_balance, datagame.your_balance);
             datagame.bot_balance = 0;
             datagame.your_balance -= datagame.bot_bet;
             datagame.bank += datagame.bot_bet * 2;
@@ -1241,8 +1113,8 @@ Datagame blind(Datagame datagame) {
 
     else {
         if (datagame.bot_balance < 50 || datagame.your_balance < 50) {
-            datagame.bot_bet += fmin(datagame.bot_balance, datagame.your_balance);
-            datagame.your_bet += fmin(datagame.bot_balance, datagame.your_balance);
+            datagame.bot_bet += fminf(datagame.bot_balance, datagame.your_balance);
+            datagame.your_bet += fminf(datagame.bot_balance, datagame.your_balance);
             datagame.your_balance = 0;
             datagame.bot_balance -= datagame.your_bet;
             datagame.bank += datagame.your_bet * 2;
@@ -1270,12 +1142,12 @@ Datagame blind(Datagame datagame) {
 }; //блайнды (начальные, обязательные ставки)
 // меняются каждый раз (baton)
 Datagame bet_player(Datagame datagame) {
-    int bet;
-    int res;
+    short bet;
+    short res;
     if (datagame.your_balance != 0) {
         do {
             printf("Make a bet: ");
-            res = scanf("%d", &bet);
+            res = scanf("%hi", &bet);
             while (getchar() != '\n');
             if (res == 1 && bet > 0 && bet >= (datagame.bot_bet - datagame.your_bet) && bet <= datagame.your_balance) {
                 //scanf("%d", &bet);
@@ -1346,9 +1218,9 @@ Datagame bot_call(Datagame datagame) {
 Datagame bot_raise(Datagame datagame) {
     printf("\n!!!Bot raise!!!\n");
 
-    int bet;
+    short bet;
     bet = datagame.win_chanse * datagame.bank;
-    int raznica = datagame.your_bet - datagame.bot_bet;
+    short raznica = datagame.your_bet - datagame.bot_bet;
     if (datagame.your_balance == 0)  bet = raznica;
     else {
         while (bet < raznica) bet += datagame.win_chanse * datagame.bank;
@@ -1599,8 +1471,8 @@ float win_chanse_bot(int round) {
         copy_usage[i] = usage[i];
     }
     float draw = 0;
-    int bot_chanse[7];
-    int bot1_chanse[7];
+    short bot_chanse[7];
+    short bot1_chanse[7];
     test_table.first_flop = table.first_flop;
     test_table.second_flop = table.second_flop;
     test_table.third_flop = table.third_flop;
@@ -1614,8 +1486,8 @@ float win_chanse_bot(int round) {
         bot_chanse[0] = table.first_flop;
         bot_chanse[1] = table.second_flop;
         bot_chanse[2] = table.third_flop;
-        bot_chanse[3] = bot_hand.first;
-        bot_chanse[4] = bot_hand.second;
+        bot_chanse[3] = second_bot_hand.first;
+        bot_chanse[4] = second_bot_hand.second;
         for (int i = 0; i < 10000; ++i) {
             bot1_chanse[3] = generation();
             bot1_chanse[4] = generation();
@@ -1655,8 +1527,8 @@ float win_chanse_bot(int round) {
         bot_chanse[0] = table.first_flop;
         bot_chanse[1] = table.second_flop;
         bot_chanse[2] = table.third_flop;
-        bot_chanse[3] = bot_hand.first;
-        bot_chanse[4] = bot_hand.second;
+        bot_chanse[3] = second_bot_hand.first;
+        bot_chanse[4] = second_bot_hand.second;
         bot_chanse[5] = table.turn;
         for (int i = 0; i < 10000; ++i) {
             bot1_chanse[4] = generation();
@@ -1696,8 +1568,8 @@ float win_chanse_bot(int round) {
         bot_chanse[0] = table.first_flop;
         bot_chanse[1] = table.second_flop;
         bot_chanse[2] = table.third_flop;
-        bot_chanse[3] = bot_hand.first;
-        bot_chanse[4] = bot_hand.second;
+        bot_chanse[3] = second_bot_hand.first;
+        bot_chanse[4] = second_bot_hand.second;
         bot_chanse[5] = table.turn;
         bot_chanse[6] = table.river;
         for (int i = 0; i < 10000; ++i) {
@@ -1804,7 +1676,7 @@ void bot_vs_bot() {
                 else if (datagame.win_chanse > tomas_raise_low && datagame.win_chanse < tomas_raise_high || (rand() % 100) < blef_tomas) {
 
                     //printf("\n!!!Bot Tomas raise!!!\n");
-                    int bet;
+                    short bet;
                     bet = datagame.win_chanse * datagame.bank;
                     while (bet < datagame.bot1_bet - datagame.bot_bet)  bet += datagame.win_chanse * datagame.bank;
                     if (bet > fmin(datagame.bot_balance, datagame.bot1_balance)) bet = fmin(datagame.bot_balance, datagame.bot1_balance);
