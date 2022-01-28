@@ -24,7 +24,7 @@
 //};
 
 //Настройка бота Томаса
-float tomas_check_low = 0.1;
+float tomas_check_low = 0.05;
 
 float tomas_call_low = 0.2;
 
