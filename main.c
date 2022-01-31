@@ -92,6 +92,7 @@ int copy_usage[] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,
                      0,0,0,0,0,0,0,0,0,0,0,0,0,
                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
 
+
 hand user_hand;
 hand bot_hand;
 hand bot1_hand;
@@ -277,7 +278,6 @@ int main() {
 
                 datagame.bot_chanse = turn_comb(turn);
                 datagame.win_chanse = win_chanse(2);
-                datagame = action(datagame);
                 if (datagame.restart == 1) continue;
                 table.river = generation();
                 int river[7];
@@ -1260,9 +1260,16 @@ Datagame blind(Datagame datagame) {
         if (datagame.bot_balance < 50 || datagame.your_balance < 50) {
             datagame.bot_bet += fmin(datagame.bot_balance, datagame.your_balance);
             datagame.your_bet += fmin(datagame.bot_balance, datagame.your_balance);
-            datagame.bot_balance = 0;
+            /*datagame.bot_balance = 0;
             datagame.your_balance -= datagame.bot_bet;
-            datagame.bank += datagame.bot_bet * 2;
+            datagame.bank += datagame.bot_bet * 2;*/
+            __asm {
+                mov datagame.bot_balance, 0
+                mov eax, datagame.bot_bet
+                sub datagame.your_balance, eax
+                add datagame.bank, eax
+                add datagame.bank, eax
+            }
         }
         else if (datagame.your_balance < 100) {
             datagame.bot_bet += 50;
@@ -1270,13 +1277,33 @@ Datagame blind(Datagame datagame) {
             datagame.your_balance = 0;
             datagame.bot_balance -= 50;
             datagame.bank += (datagame.bot_bet + datagame.your_bet);
+            __asm {
+                add	datagame.bot_bet, 50
+                mov eax, datagame.your_balance
+                add datagame.your_bet, eax
+                mov datagame.your_balance, 0
+                sub datagame.bot_balance, 50
+                mov   eax, datagame.bot_bet
+                add   eax, datagame.your_bet
+                mov   datagame.bank, eax
+            }
+
         }
         else {
-            datagame.bot_bet += 50;
+            /*datagame.bot_bet += 50;
             datagame.your_bet += 100;
             datagame.your_balance -= 100;
             datagame.bot_balance -= 50;
-            datagame.bank += (datagame.bot_bet + datagame.your_bet);
+            datagame.bank += (datagame.bot_bet + datagame.your_bet);*/
+            __asm {
+                add	datagame.bot_bet, 50
+                add datagame.your_bet, 100
+                sub datagame.your_balance, 100
+                sub datagame.bot_balance, 50
+                mov   eax, datagame.bot_bet
+                add   eax, datagame.your_bet
+                mov   datagame.bank, eax
+            }
 
         }
         datagame.baton = 0;
@@ -1286,26 +1313,60 @@ Datagame blind(Datagame datagame) {
         if (datagame.bot_balance < 50 || datagame.your_balance < 50) {
             datagame.bot_bet += fmin(datagame.bot_balance, datagame.your_balance);
             datagame.your_bet += fmin(datagame.bot_balance, datagame.your_balance);
+            /*
             datagame.your_balance = 0;
             datagame.bot_balance -= datagame.your_bet;
-            datagame.bank += datagame.your_bet * 2;
+            datagame.bank += datagame.your_bet * 2;*/
+            __asm {
+                mov datagame.your_balance, 0
+                mov eax, datagame.your_bet
+                sub datagame.bot_balance, eax
+                add datagame.bank, eax
+                add datagame.bank, eax
+            }
+
+            
         }
         else if (datagame.bot_balance < 100) {
-            datagame.your_bet += 50;
+            /*datagame.your_bet += 50;
             datagame.bot_bet += datagame.bot_balance;
             datagame.bot_balance = 0;
             datagame.your_balance -= 50;
-            datagame.bank += (datagame.bot_bet + datagame.your_bet);
+            datagame.bank += (datagame.bot_bet + datagame.your_bet);*/
+            __asm {
+                add	datagame.bot_bet, 50
+                mov eax, datagame.bot_balance
+                add datagame.your_bet, eax
+                mov datagame.bot_balance, 0
+                sub datagame.your_balance, 50
+                mov   eax, datagame.bot_bet
+                add   eax, datagame.your_bet
+                mov   datagame.bank, eax
+            }
         }
         else {
-            datagame.bot_bet += 100;
+            /*datagame.bot_bet += 100;
             datagame.your_bet += 50;
             datagame.your_balance -= 50;
             datagame.bot_balance -= 100;
             datagame.bank += (datagame.bot_bet + datagame.your_bet);
+            */
+            __asm {
+                add	datagame.bot_bet, 100
+                add datagame.your_bet, 50
+                sub datagame.your_balance, 50
+                sub datagame.bot_balance, 100
+                mov   eax, datagame.bot_bet
+                add   eax, datagame.your_bet
+                mov   datagame.bank, eax
+            }
+            
 
         }
-        datagame.baton = 1;
+        //datagame.baton = 1;
+        __asm {
+            mov   datagame.baton, 1
+        }
     }
     //printinfo(datagame);
 
