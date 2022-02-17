@@ -1272,11 +1272,11 @@ Datagame blind(Datagame datagame) {
             }
         }
         else if (datagame.your_balance < 100) {
-            datagame.bot_bet += 50;
+           /* datagame.bot_bet += 50;
             datagame.your_bet += datagame.your_balance;
             datagame.your_balance = 0;
             datagame.bot_balance -= 50;
-            datagame.bank += (datagame.bot_bet + datagame.your_bet);
+            datagame.bank += (datagame.bot_bet + datagame.your_bet);*/
             __asm {
                 add	datagame.bot_bet, 50
                 mov eax, datagame.your_balance
