@@ -145,7 +145,7 @@ short flush_royal(short* dignity, short* suit);
 //рассчёт силы комбинации
 short combination_power(short* dignity, short* suit, short size);
 //сортировка входящего массива карт
-void sort(int* arr, int lenght);
+void sort(short* arr, int lenght);
 
 Datagame action_bot(Datagame datagame);
 Datagame action(Datagame datagame);
@@ -532,7 +532,7 @@ short river_comb(short* river) {
     return strong;
 }
 
-void sort(int* arr, int lenght) {
+void sort(short* arr, int lenght) {
     //обычная сортировка шейкером, параметры сортировки описаны в статье
     int right = lenght - 1;
     int left = 0;
@@ -1040,6 +1040,7 @@ float win_chanse(int round) {
         }
         return chanse / 10000;
     }
+    return chanse / 10000;
 }
 
 void ClearScreen()
@@ -1183,7 +1184,6 @@ Datagame bot_call(Datagame datagame) {
     /* datagame.bank += datagame.your_bet - datagame.bot_bet;
      datagame.bot_balance -= datagame.your_bet - datagame.bot_bet;
      datagame.bot_bet += datagame.your_bet - datagame.bot_bet;
-
      printinfo(datagame);
      datagame.restart = 0;
      return datagame;*/
@@ -1599,6 +1599,7 @@ float win_chanse_bot(int round) {
         datagame.win_chanse = win_ch;
         return chanse / 10000;
     }
+    return chanse / 10000;
 }
 
 void blind_bots() {
